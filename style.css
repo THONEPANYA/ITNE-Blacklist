@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap');
+
+body {
+  box-sizing: border-box;
+  font-family: 'Noto Sans Lao', sans-serif;
+  background-color: #f0f2f5; /* Add a background color to the body */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+* { font-family: 'Noto Sans Lao', sans-serif; }
+
+/* iPhone 14 Pro Max optimizations */
+.container-mobile {
+  width: 430px;
+  height: 932px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+
+@media (max-width: 430px) {
+  .container-mobile {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+  }
+}
+
+
+.fade-in { animation: fadeIn 0.3s ease-in; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pulse-glow { animation: pulseGlow 2s infinite; }
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 25px rgba(239,68,68,.4); }
+  50%     { box-shadow: 0 0 35px rgba(239,68,68,.7); }
+}
+
+/* Safe area for iPhone notch */
+.safe-top    { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Enhanced touch targets */
+.touch-target { min-height: 48px; min-width: 48px; }
+
+/* Smooth scrolling */
+.scroll-smooth { -webkit-overflow-scrolling: touch; }
+
+/* Notification animations (moved out of JS) */
+@keyframes slideInFromTop {
+  from { transform: translateY(-100px); opacity: 0; }
+  to   { transform: translateY(0);      opacity: 1; }
+}
+@keyframes slideOutToTop {
+  from { transform: translateY(0);      opacity: 1; }
+  to   { transform: translateY(-100px); opacity: 0; }
+}
+@keyframes pulseNotification {
+  0%,100% { transform: scale(1) translateY(0); box-shadow: 0 10px 25px rgba(239,68,68,.3); }
+  25%     { transform: scale(1.02) translateY(-2px); box-shadow: 0 15px 35px rgba(239,68,68,.4); }
+  50%     { transform: scale(1.01) translateY(-1px); box-shadow: 0 12px 30px rgba(239,68,68,.35); }
+  75%     { transform: scale(1.02) translateY(-2px); box-shadow: 0 15px 35px rgba(239,68,68,.4); }
+}
+
+.notification-title {
+  font-size: 0.9rem;
+}
+
+.notification-subtitle {
+  font-size: 0.7rem;
+}

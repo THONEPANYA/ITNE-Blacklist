@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>ITNE Blacklist Seller</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-red-50 to-orange-50 font-sans">
+  <div class="container-mobile" style="overflow-y: auto;">
+    <!-- Home Screen -->
+    <div id="homeScreen" class="fade-in">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-red-500 to-red-600 text-white safe-top">
+        <div class="px-6 py-8 text-center">
+          <div class="text-5xl mb-3">🚨</div>
+          <h1 class="text-3xl font-bold mb-3">ITNE Blacklist</h1>
+          <p class="text-red-100 text-base">ເວັບໄຊທ໌ ການລາຍງານທັງໝົດ ການສໍ້ໂກງໃນໂລກອອນໄລ</p>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="px-6 pt-6 pb-4">
+        <input type="text" id="searchBar" class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target" placeholder="🔍 ຄົ້ນຫາຊື່, ເບີໂທ, ຫຼືເລກບັນຊີ">
+      </div>
+
+      <!-- Menu Grid -->
+      <div class="px-6 py-8">
+        <h2 class="text-xl font-bold text-gray-800 mb-6">ເລືອກການນຳໃຊ້</h2>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="bg-white rounded-xl shadow-lg p-5 cursor-pointer touch-target pulse-glow" onclick="showReportForm()">
+            <div class="text-center">
+              <div class="text-3xl mb-2">📝</div>
+              <h3 class="text-base font-bold text-red-600 mb-1">ແຈ້ງລາຍງານໃໝ່</h3>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-lg p-5 cursor-pointer touch-target" onclick="showMyReports()">
+            <div class="text-center">
+              <div class="text-3xl mb-2">📋</div>
+              <h3 class="text-base font-bold text-blue-600 mb-1">ລາຍການຂອງຂ້ອຍ</h3>
+              <p class="text-xs text-gray-500">(<span id="myReportsCount">0</span> ລາຍການ)</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-lg p-5 cursor-pointer touch-target" onclick="showPublicDatabase()">
+            <div class="text-center">
+              <div class="text-3xl mb-2">🌐</div>
+              <h3 class="text-base font-bold text-purple-600 mb-1">ຖານຂໍ້ມູນສາທາລະນະ</h3>
+              <p class="text-xs text-gray-500">(<span id="publicReportsCount">5</span> ລາຍການ)</p>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-orange-400 to-red-400 rounded-xl shadow-lg p-5 cursor-pointer touch-target" onclick="showNewReportNotification()">
+            <div class="text-center">
+              <div class="text-3xl mb-2">🧪</div>
+              <h3 class="text-base font-bold text-white mb-1">ທົດສອບແຈ້ງເຕືອນ</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="px-6 pb-8 safe-bottom">
+        <div class="bg-white rounded-2xl shadow-xl p-7">
+          <h3 class="text-xl font-bold text-gray-800 mb-6">ສະຖິຕິ</h3>
+          <div class="grid grid-cols-2 gap-6">
+            <div class="text-center">
+              <div class="text-3xl font-bold text-red-500 mb-2" id="totalScams">5</div>
+              <div class="text-base text-gray-600">ລາຍງານທັງໝົດ</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-orange-500 mb-2" id="totalDamage">2.1M</div>
+              <div class="text-base text-gray-600">ຄວາມເສຍຫາຍລວມ (ກີບ)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Form Screen -->
+    <div id="reportScreen" class="hidden">
+      <div class="bg-red-500 text-white safe-top">
+        <div class="p-5 flex items-center">
+          <button onclick="showHome()" class="mr-4 text-2xl touch-target">←</button>
+          <h1 class="text-xl font-bold">ແຈ້ງລາຍງານໃໝ່</h1>
+        </div>
+      </div>
+
+      <div class="bg-white px-6 py-6 scroll-smooth">
+        <form id="reportForm" class="space-y-6">
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຊື່ຜູ້ຂາຍ/ຮ້ານຄ້າ *</label>
+            <input type="text" id="sellerName" required
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target"
+                   placeholder="ລະບຸຊື່ຜູ້ຂາຍຫຼືຊື່ຮ້ານ">
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຊ່ອງທາງການຂາຍ *</label>
+            <select id="platform" required
+                    class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target">
+              <option value="">ເລືອກຊ່ອງທາງການຂາຍ</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Line">Line</option>
+              <option value="Shopee">Shopee</option>
+              <option value="Lazada">Lazada</option>
+              <option value="ເວັບໄຊທ໌">ເວັບໄຊທ໌</option>
+              <option value="ອື່ນໆ">ອື່ນໆ</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຂໍ້ມູນຕິດຕໍ່ຜູ້ຂາຍ</label>
+            <input type="text" id="contact"
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target"
+                   placeholder="ເບີໂທ, Line ID, ຫຼືຂໍ້ມູນຕິດຕໍ່ອື່ນໆ">
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ປະເພດການໂກງ *</label>
+            <select id="scamType" required
+                    class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target">
+              <option value="">ເລືອກປະເພດການໂກງ</option>
+              <option value="ຮັບເງິນແລ້ວບໍ່ສົ່ງສິນຄ້າ">ຮັບເງິນແລ້ວບໍ່ສົ່ງສິນຄ້າ</option>
+              <option value="ສົ່ງສິນຄ້າບໍ່ຕົງຕາມທີ່ໂຄສະນາ">ສົ່ງສິນຄ້າບໍ່ຕົງຕາມທີ່ໂຄສະນາ</option>
+              <option value="ສິນຄ້າປອມ/ເລຽນແບບ">ສິນຄ້າປອມ/ເລຽນແບບ</option>
+              <option value="ບໍ່ຍອມຄືນເງິນ">ບໍ່ຍອມຄືນເງິນ</option>
+              <option value="ຫຼອກຂາຍສິນຄ້າທີ່ບໍ່ມີຢູ່ຈິງ">ຫຼອກຂາຍສິນຄ້າທີ່ບໍ່ມີຢູ່ຈິງ</option>
+              <option value="ອື່ນໆ">ອື່ນໆ</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຈຳນວນເງິນທີ່ເສຍຫາຍ</label>
+            <input type="number" id="amount"
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target"
+                   placeholder="ລະບຸຈຳນວນເງິນ (ກີບ)">
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ລາຍລະອຽດເພີ່ມເຕີມ *</label>
+            <textarea id="details" required rows="5"
+                      class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg resize-none"
+                      placeholder="ອະທິບາຍລາຍລະອຽດການໂດນໂກງ ເຊັ່ນ ວິທີການຕິດຕໍ່ ການໂອນເງິນ ສິ່ງທີ່ເກີດຂຶ້ນ"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຊື່ຜູ້ແຈ້ງ *</label>
+            <input type="text" id="reporterName" required
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target"
+                   placeholder="ຊື່ຂອງທ່ານ">
+          </div>
+
+          <div class="pt-6 pb-8 safe-bottom">
+            <button type="submit"
+                    class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-5 px-6 rounded-xl transition-colors text-xl touch-target shadow-lg">
+              🚨 ສົ່ງລາຍງານ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- My Reports Screen -->
+    <div id="myReportsScreen" class="hidden">
+      <div class="bg-blue-500 text-white safe-top">
+        <div class="p-5 flex items-center">
+          <button onclick="showHome()" class="mr-4 text-2xl touch-target">←</button>
+          <h1 class="text-xl font-bold">ລາຍການຂອງຂ້ອຍ</h1>
+        </div>
+      </div>
+
+      <div class="bg-white">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <div class="text-base text-gray-500">
+            ລາຍງານຂອງຂ້ອຍ: <span id="myReportsTotal" class="font-bold text-blue-500">0</span> ລາຍການ
+          </div>
+        </div>
+
+        <div id="myReportsContainer" class="pb-6 safe-bottom scroll-smooth">
+          <div class="text-center py-16 text-gray-500 px-6">
+            <div class="text-6xl mb-6">📝</div>
+            <p class="text-lg mb-3">ທ່ານຍັງບໍ່ໄດ້ແຈ້ງລາຍງານໃດໆ</p>
+            <p class="text-base mt-2 mb-6">ເລີ່ມຕົ້ນດ້ວຍການແຈ້ງລາຍງານຜູ້ຂາຍທີ່ບໍ່ໜ້າເຊື່ອຖື</p>
+            <button onclick="showReportForm()" class="bg-red-500 text-white px-8 py-4 rounded-xl text-lg font-bold touch-target shadow-lg">
+              ແຈ້ງລາຍງານໃໝ່
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Public Database Screen -->
+    <div id="publicScreen" class="hidden">
+      <div class="bg-purple-500 text-white safe-top">
+        <div class="p-5 flex items-center">
+          <button onclick="showHome()" class="mr-4 text-2xl touch-target">←</button>
+          <h1 class="text-xl font-bold">ຖານຂໍ້ມູນສາທາລະນະ</h1>
+        </div>
+      </div>
+
+      <div class="bg-white">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <div class="text-base text-gray-500">
+            ລາຍງານທັງໝົດ: <span id="publicReportsTotal" class="font-bold text-purple-500">5</span> ລາຍການ
+          </div>
+        </div>
+
+        <div id="publicReportsContainer" class="pb-6 safe-bottom scroll-smooth">
+          <!-- Demo data will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-t-2xl shadow-2xl m-0 w-full h-full max-h-[95vh] overflow-y-auto scroll-smooth">
+        <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center safe-top">
+          <h3 class="text-xl font-bold text-gray-800">ແກ້ໄຂລາຍງານ</h3>
+          <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-3xl w-12 h-12 flex items-center justify-center touch-target">×</button>
+        </div>
+
+        <form id="editForm" class="px-6 py-6 space-y-6">
+          <input type="hidden" id="editId">
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຊື່ຜູ້ຂາຍ/ຮ້ານຄ້າ</label>
+            <input type="text" id="editSellerName" required
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg touch-target">
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຊ່ອງທາງການຂາຍ</label>
+            <select id="editPlatform" required
+                    class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg touch-target">
+              <option value="Facebook">Facebook</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Line">Line</option>
+              <option value="Shopee">Shopee</option>
+              <option value="Lazada">Lazada</option>
+              <option value="ເວັບໄຊທ໌">ເວັບໄຊທ໌</option>
+              <option value="ອື່ນໆ">ອື່ນໆ</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຂໍ້ມູນຕິດຕໍ່ຜູ້ຂາຍ</label>
+            <input type="text" id="editContact"
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg touch-target">
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ປະເພດການໂກງ</label>
+            <select id="editScamType" required
+                    class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg touch-target">
+              <option value="ຮັບເງິນແລ້ວບໍ່ສົ່ງສິນຄ້າ">ຮັບເງິນແລ້ວບໍ່ສົ່ງສິນຄ້າ</option>
+              <option value="ສົ່ງສິນຄ້າບໍ່ຕົງຕາມທີ່ໂຄສະນາ">ສົ່ງສິນຄ້າບໍ່ຕົງຕາມທີ່ໂຄສະນາ</option>
+              <option value="ສິນຄ້າປອມ/ເລຽນແບບ">ສິນຄ້າປອມ/ເລຽນແບບ</option>
+              <option value="ບໍ່ຍອມຄືນເງິນ">ບໍ່ຍອມຄືນເງິນ</option>
+              <option value="ຫຼອກຂາຍສິນຄ້າທີ່ບໍ່ມີຢູ່ຈິງ">ຫຼອກຂາຍສິນຄ້າທີ່ບໍ່ມີຢູ່ຈິງ</option>
+              <option value="ອື່ນໆ">ອື່ນໆ</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຈຳນວນເງິນທີ່ເສຍຫາຍ</label>
+            <input type="number" id="editAmount"
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg touch-target">
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ລາຍລະອຽດເພີ່ມເຕີມ</label>
+            <textarea id="editDetails" required rows="4"
+                      class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg resize-none"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-base font-medium text-gray-700 mb-3">ຊື່ຜູ້ແຈ້ງ</label>
+            <input type="text" id="editReporterName" required
+                   class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg touch-target">
+          </div>
+
+          <div class="pt-6 pb-8 space-y-4 safe-bottom">
+            <button type="submit"
+                    class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 px-6 rounded-xl transition-colors text-lg touch-target shadow-lg">
+              ✅ ບັນທຶກການແກ້ໄຂ
+            </button>
+            <button type="button" id="cancelEdit"
+                    class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-5 px-6 rounded-xl transition-colors text-lg touch-target shadow-lg">
+              ❌ ຍົກເລີກ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-gray-500 text-xs">
+      <p>&copy; 2025 ITNE Blacklist Seller. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- External JS -->
+  <script src="script.js" defer></script>
+</body>
+</html>
