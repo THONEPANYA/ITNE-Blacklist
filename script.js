@@ -17,7 +17,7 @@ let publicReports = [
     scamType: "ບໍ່ຍອມຄືນເງິນ", amount: "420000",
     details: "ຊື້ຄຣີມບຳລຸງຜິວ ...", reporterName: "ນາງນິດາ ສວຍງາມ", date: "5/11/2567", isMyReport: false },
   { id: 6, sellerName: "INTHONE", platform: "Facebook", contact: "ເບີໂທ: 020 52862004",
-    scamType: "ບິດເງິນ", amount: "500000000",
+    scamType: "ບິດເງິນ", amount: "50000",
     details: "ບິດເງິນ ໄປລົງທຶນ bitcoin", reporterName: "ອອຍ ສະຫວັນ", date: "9/29/2567", isMyReport: false }
 ];
 let nextId = 7;
@@ -274,11 +274,24 @@ function showNewReportNotification(){
   notificationIndex = (notificationIndex + 1) % newReportNotifications.length;
 }
 
-// // Auto-init
-// document.addEventListener('DOMContentLoaded', ()=>{
-//   updateCounts();
-//   startNotificationSystem();
-// });
+// Auto-init
+document.addEventListener('DOMContentLoaded', ()=>{
+  updateCounts();
+  // startNotificationSystem();
+
+  const redButton = document.querySelector('.window-bar-button.red');
+  const quickAssetPopup = document.getElementById('quickAssetPopup');
+
+  if (redButton && quickAssetPopup) {
+    redButton.addEventListener('mouseover', () => {
+      quickAssetPopup.classList.remove('hidden');
+    });
+
+    redButton.addEventListener('mouseout', () => {
+      quickAssetPopup.classList.add('hidden');
+    });
+  }
+});
 
 // Run notifications
 function startNotificationSystem(){

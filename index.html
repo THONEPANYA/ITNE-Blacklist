@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>ITNE Blacklist Seller</title>
+  <title>ITNE Blacklist</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gradient-to-br from-red-50 to-orange-50 font-sans">
+<body class="bg-white font-sans">
   <div class="container-mobile" style="overflow-y: auto;">
     <!-- Home Screen -->
     <div id="homeScreen" class="fade-in">
       <!-- Header -->
-      <div class="bg-gradient-to-r from-red-500 to-red-600 text-white safe-top">
-        <div class="px-6 py-8 text-center">
-          <div class="text-5xl mb-3">🚨</div>
-          <h1 class="text-3xl font-bold mb-3">ITNE Blacklist</h1>
-          <p class="text-red-100 text-base">ເວັບໄຊທ໌ ການລາຍງານທັງໝົດ ການສໍ້ໂກງໃນໂລກອອນໄລ</p>
+      <div class="bg-black text-white safe-top" style="position: relative; display: flex; align-items: center; padding: 0 15px; height: 50px;">
+        <h1 class="text-xl font-bold">ITNE Blacklist</h1>
+        <div class="window-bar-buttons" style="position: absolute; top: 50%; transform: translateY(-50%); right: 15px;">
+          <div class="window-bar-button red"></div>
+          <div class="window-bar-button yellow"></div>
+          <div class="window-bar-button green"></div>
         </div>
       </div>
 
       <!-- Search Bar -->
       <div class="px-6 pt-6 pb-4">
-        <input type="text" id="searchBar" class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg touch-target" placeholder="🔍 ຄົ້ນຫາຊື່, ເບີໂທ, ຫຼືເລກບັນຊີ">
+        <input type="text" id="searchBar" class="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black transition-colors text-lg touch-target" placeholder="🔍 ຄົ້ນຫາຊື່, ເບີໂທ, ຫຼືເລກບັນຊີ">
       </div>
 
       <!-- Menu Grid -->
@@ -300,9 +301,14 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 text-gray-500 text-xs">
-      <p>&copy; 2025 ITNE Blacklist Seller. All rights reserved.</p>
+      <p>&copy; 2025 ITNE Blacklist. All rights reserved.</p>
     </footer>
 
+  </div>
+
+  <div id="quickAssetPopup" class="hidden fixed top-14 right-5 bg-white p-4 rounded-lg shadow-lg border z-50">
+    <h3 class="font-bold mb-2">Quick Asset</h3>
+    <p>This is the quick asset view.</p>
   </div>
 
   <!-- External JS -->

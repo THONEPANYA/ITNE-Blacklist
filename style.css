@@ -76,3 +76,28 @@ body {
 .notification-subtitle {
   font-size: 0.7rem;
 }
+
+/* macOS window bar buttons */
+.window-bar-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.window-bar-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.window-bar-button.red {
+  background-color: #ff5f57;
+}
+
+.window-bar-button.yellow {
+  background-color: #ffbd2e;
+}
+
+.window-bar-button.green {
+  background-color: #28c940;
+}
